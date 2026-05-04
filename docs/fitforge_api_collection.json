@@ -1,0 +1,54 @@
+{
+	"info": {
+		"name": "FitForge API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autenticação",
+			"item": [
+				{
+					"name": "Registrar Usuário",
+					"request": {
+						"method": "POST",
+						"url": "http://localhost:3000/api/register",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Lucas\", \"email\": \"lucas@teste.com\", \"password\": \"123456\"}"
+						}
+					}
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"url": "http://localhost:3000/api/login",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"lucas@teste.com\", \"password\": \"123456\"}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Treinos",
+			"item": [
+				{
+					"name": "Salvar Treino",
+					"request": {
+						"method": "POST",
+						"url": "http://localhost:3000/api/workouts",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\": \"ID_DO_USUARIO\", \"muscleGroup\": \"Peito\", \"exercise\": \"Supino\", \"sets\": 3, \"reps\": 12, \"weightKg\": 80}"
+						}
+					}
+				}
+			]
+		}
+	]
+}
