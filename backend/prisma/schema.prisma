@@ -1,13 +1,52 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  // Você pode mudar para "mysql" se preferir, a sintaxe das tabelas abaixo se mantém a mesma.
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String            @id @default(uuid())
+  name          String
+  email         String            @unique
+  password      String
+  workouts      Workout[]
+  measurements  BodyMeasurement[]
+  runs          RunHistory[]
+  createdAt     DateTime          @default(now())
+}
+
+model Workout {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  muscleGroup   String   // Ex: Costas, Peito, Pernas
+  exercise      String   // Ex: Puxada Frontal
+  sets          Int
+  reps          Int
+  weightKg      Float
+  createdAt     DateTime @default(now())
+}
+
+model BodyMeasurement {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  weightKg      Float    // Ex: 80.5
+  bicepsCm      Float?   // Ex: 32.0
+  tricepsCm     Float?   // Ex: 33.5
+  recordedAt    DateTime @default(now())
+}
+
+model RunHistory {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  distanceKm    Float    // Ex: 42.195 para maratona
+  timeMinutes   Int      // Tempo total em minutos (Ex: 225 para 3h45m)
+  date          DateTime // Data da prova
+  createdAt     DateTime @default(now())
 }
